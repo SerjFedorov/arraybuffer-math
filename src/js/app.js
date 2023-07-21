@@ -2,31 +2,31 @@
 export default class Character {
   constructor(name) {
     this.name = name;
-    this.attack = 10;
+    this.attackVal = 10;
     this.defence = 40;
-    this.calcAttack = null;
-    this.stoned = false;
+    this.stonedStatus = false;
   }
 
-  getAttack() {
-    return this.calcAttack;
+  get attack() {
+    return (distance) => {
+      let attack = this.attackVal - 10 * (distance - 1);
+      if (this.stoned) {
+        attack -= Math.log2(distance) * 5;
+      }
+      attack = Math.round(attack);
+      return attack;
+    };
   }
 
-  setAttack(distance) {
-    this.calcAttack = (1 - distance / 10) * this.attack;
-    if (this.calcAttack < 0 || distance < 0) {
-      this.calcAttack = 0;
-    }
+  set attack(value) {
+    this.attackVal = value;
   }
 
-  getStoned() {
-    return this.calcAttack;
+  get stoned() {
+    return this.stonedStatus;
   }
 
-  setStoned(distance) {
-    this.calcAttack = this.attack - 5 * Math.log2(distance);
-    if (this.calcAttack < 0 || distance < 0) {
-      this.calcAttack = 0;
-    }
+  set stoned(state) {
+    this.stonedStatus = state;
   }
 }
